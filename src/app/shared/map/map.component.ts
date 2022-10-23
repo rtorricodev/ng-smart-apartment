@@ -5,7 +5,7 @@ import { MapService } from '@core/map.service';
 
 @Component({
   selector: 'app-map',
-  template: `<div id="map" class="w-full h-screen absolute"></div>`,
+  template: `<div id="map" class="w-full h-full"></div>`,
 })
 export class MapComponent implements OnInit {
   @Input() mapConfig: MapConfig = {

@@ -7,10 +7,10 @@ import { NgModule } from '@angular/core';
     MapComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [
-    MapComponent
+    MapComponent,
   ]
 })
 export class SharedModule { }
