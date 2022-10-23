@@ -1,12 +1,12 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { AprtmentMapListComponent } from './aprtment-map-list/aprtment-map-list.component';
+import { ApartmentMapListComponent } from './apartment-map-list/apartment-map-list.component';
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
     path: "",
-    component: AprtmentMapListComponent
+    component: ApartmentMapListComponent
   },
 ];
 

@@ -1,14 +1,17 @@
+import { ApartmentMapListComponent } from './apartment-map-list/apartment-map-list.component';
 import { ApartmentMapRoutingModule } from './apartment-map-routing.module';
-import { AprtmentMapListComponent } from './aprtment-map-list/aprtment-map-list.component';
 import { CommonModule } from '@angular/common';
+import { MapService } from '@core/map.service';
 import { NgModule } from '@angular/core';
+import { SharedModule } from './../../shared/shared.module';
 
 @NgModule({
   declarations: [
-    AprtmentMapListComponent
+    ApartmentMapListComponent,
   ],
   imports: [
     CommonModule,
+    SharedModule,
     ApartmentMapRoutingModule
   ]
 })
