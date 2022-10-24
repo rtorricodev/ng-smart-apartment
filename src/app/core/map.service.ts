@@ -21,7 +21,6 @@ export class MapService {
   }
 
   addMarkers(geolocationList: LngLatLike[] ): void {
-    console.log(geolocationList);
     geolocationList.forEach((geolocation: LngLatLike) => {
       this.addMarker(geolocation);
     });
@@ -41,6 +40,5 @@ export class MapService {
       style: this._mapConfig.style,
       zoom: this._mapConfig.zoom,
     });
-    this.map.addControl(new mapboxgl.NavigationControl());
   }
 }
