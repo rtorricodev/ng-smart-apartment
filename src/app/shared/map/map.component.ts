@@ -1,25 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 
-import { MapConfig } from './map-config.interface';
-import { MapService } from '@core/map.service';
+import { MapConfig } from './interfaces/map-config.interface';
+import { MapService } from '@shared/map/map.service';
+import { MarkerConfig } from './interfaces/marker-config.interface';
 
 @Component({
   selector: 'app-map',
-  template: `<div id="map" class="w-full h-full"></div>`,
+  template: `<div [id]="mapConfig.container" class="w-full h-full"></div>`,
 })
-export class MapComponent implements OnInit {
-  @Input() mapConfig: MapConfig = {
-    center: [0, 0],
-    zoom: 0,
-    style: "",
-    container: "",
-  };
+export class MapComponent implements AfterViewInit {
 
+  @Input() mapConfig: MapConfig = {} as MapConfig;
+  
   constructor(private mapService: MapService) { }
 
-  ngOnInit(): void {
-    this.mapService.buildMap(this.mapConfig);
+  ngAfterViewInit(): void {
+    this.mapService.initializeMap(this.mapConfig, [[30,20],[31,21]]);
   }
+
+
 
 }
 

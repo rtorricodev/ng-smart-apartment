@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { APARTMENT_MAP_CONFIG } from '../apartment-map-config.const';
 import { ApartmentCard } from './apartment-card/apartment-card.interface';
-import { MapConfig } from '@shared/map/map-config.interface';
+import { MapConfig } from '@shared/map/interfaces/map-config.interface';
 
 @Component({
   selector: 'app-aprtment-map-list',
