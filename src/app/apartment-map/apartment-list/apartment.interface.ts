@@ -7,6 +7,7 @@ export interface Apartment {
     },
     name: string;
     photo: string;
+    propertyId: string;
     state: string;
     streetAddress: string;
 
