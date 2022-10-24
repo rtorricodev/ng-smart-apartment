@@ -21,6 +21,7 @@ export class MapService {
   }
 
   addMarkers(geolocationList: LngLatLike[] ): void {
+    console.log(geolocationList);
     geolocationList.forEach((geolocation: LngLatLike) => {
       this.addMarker(geolocation);
     });
@@ -31,16 +32,9 @@ export class MapService {
       markerConfig || this._mapConfig.defaultMakerConfig || this._defaultMarker;
     new mapboxgl.Marker(marker).setLngLat(geolocation).addTo(this.map);
   }
-
-  initializeMap(mapConfig: MapConfig, markers?: LngLatLike[]) {
+  
+   buildMap(mapConfig: MapConfig): void {
     this._mapConfig = mapConfig;
-    this._buildMap();
-    if(markers) {
-      this.addMarkers(markers);
-    } 
-  }
-
-  private _buildMap(): void {
     this.map = new mapboxgl.Map({
       center: this._mapConfig.center,
       container: this._mapConfig.container,

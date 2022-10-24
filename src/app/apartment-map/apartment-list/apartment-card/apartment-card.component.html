@@ -1,0 +1,13 @@
+<div class=" w-full h-32 bg-white my-3 rounded-md shadow-lg flex flex-wrap ">
+    <div class=" w-4/6 h-full flex justify-center">
+        <div class="w-10/12 mt-4">
+            <p class="font-bold text-gray-700">{{ apartment.name }}</p>
+            <p class="text-sm text-gray-700">{{ apartment.streetAddress }}</p>
+        </div>
+    </div>
+    <div class=" w-2/6 h-full flex items-center justify-center ">
+        <div>
+            <img class="rounded-md w-10/12" [src]="apartment.photo" alt="">
+        </div>
+    </div> 
+</div>

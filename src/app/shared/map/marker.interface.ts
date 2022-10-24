@@ -1,4 +1,4 @@
-export interface MarkerConfig {
+export interface Marker {
     color: string;
     draggable: boolean;
 }

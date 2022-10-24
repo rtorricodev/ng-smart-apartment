@@ -1,14 +1,14 @@
-import { ApartmentCardComponent } from './apartment-map-list/apartment-card/apartment-card.component';
-import { ApartmentMapListComponent } from './apartment-map-list/apartment-map-list.component';
+import { ApartmentCardComponent } from './apartment-list/apartment-card/apartment-card.component';
+import { ApartmentListComponent } from './apartment-list/apartment-list.component';
 import { ApartmentMapRoutingModule } from './apartment-map-routing.module';
 import { CommonModule } from '@angular/common';
-import { MapService } from '@shared/map/map.service';
+import { MapService } from '@core/map.service';
 import { NgModule } from '@angular/core';
-import { SharedModule } from './../../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
-    ApartmentMapListComponent,
+    ApartmentListComponent,
     ApartmentCardComponent,
   ],
   imports: [

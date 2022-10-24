@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 const routes: Routes = [
   {
     path: "",
-    loadChildren: () => import('./modules/apartment-map/apartment-map.module').then((m) => m.ApartmentMapModule),
+    loadChildren: () => import('./apartment-map/apartment-map.module').then((m) => m.ApartmentMapModule),
     pathMatch: "full", 
   },
   {
