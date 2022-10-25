@@ -1,9 +1,11 @@
 import * as mapboxgl from 'mapbox-gl';
 
+import { Marker, MarkerConfig } from '@shared/interfaces/marker.interface';
+
 import { Injectable } from '@angular/core';
 import { LngLatLike } from 'mapbox-gl';
-import { MapConfig } from '../shared/map/map-config.interface';
-import { Marker } from '@shared/map/marker.interface';
+import { MapConfig } from '../shared/interfaces/map-config.interface';
+import { MarkerProps } from '../shared/interfaces/marker.interface';
 import { environment } from '@env/environment';
 
 @Injectable({
@@ -11,28 +13,33 @@ import { environment } from '@env/environment';
 })
 export class MapService {
   mapbox = mapboxgl as typeof mapboxgl;
+  markerList: Marker[] = [];
   map: mapboxgl.Map = {} as mapboxgl.Map;
 
-  private _defaultMarker = { color: '#2663EB', draggable: false };
+  private _defaultFocusZoom: number = 17;
+
+  private _defaultMarkerConfig: MarkerConfig = { color: "#E74C3B", draggable: false };
+  private _focusedMarkerConfig: MarkerConfig = { color: "#2663EB", draggable: false };
   private _mapConfig: MapConfig = {} as MapConfig;
 
   constructor() {
     this.mapbox.accessToken = environment.mapBoxToken;
   }
 
-  addMarkers(geolocationList: LngLatLike[] ): void {
-    geolocationList.forEach((geolocation: LngLatLike) => {
-      this.addMarker(geolocation);
+  addMarkers(markerInfoList: MarkerProps[]): void {
+    markerInfoList.forEach((marker: MarkerProps) => {
+      this.addMarker(marker.geolocation, marker.id);
     });
   }
 
-  addMarker(geolocation: LngLatLike, markerConfig?: Marker): void {
-    const marker: Marker =
-      markerConfig || this._mapConfig.defaultMakerConfig || this._defaultMarker;
-    new mapboxgl.Marker(marker).setLngLat(geolocation).addTo(this.map);
+  addMarker(geolocation: LngLatLike, id: string = "", markerConfig?: MarkerConfig): void {
+    const markerConf: MarkerConfig = markerConfig || this._defaultMarkerConfig;
+    const markerObj: mapboxgl.Marker = new mapboxgl.Marker(markerConf).setLngLat(geolocation).addTo(this.map);
+    const marker: Marker = { id, markerConf, markerObj };
+    this.markerList.push(marker);
   }
   
-   buildMap(mapConfig: MapConfig): void {
+  buildMap(mapConfig: MapConfig): void {
     this._mapConfig = mapConfig;
     this.map = new mapboxgl.Map({
       center: this._mapConfig.center,
@@ -40,5 +47,39 @@ export class MapService {
       style: this._mapConfig.style,
       zoom: this._mapConfig.zoom,
     });
+  }
+
+  focusMarker(markerInfo: MarkerProps): void {
+    this._flyTo(markerInfo.geolocation, this._defaultFocusZoom);
+    const marker: Marker = this._findMarker(markerInfo.id);
+    this._removeMarker(markerInfo.id, marker.markerObj);
+    this.addMarker(markerInfo.geolocation, markerInfo.id, this._focusedMarkerConfig);
+  }
+
+  unfocusMarker(markerInfo: MarkerProps): void {
+    this._flyTo(this._mapConfig.center, this._mapConfig.zoom);
+    const marker: Marker = this._findMarker(markerInfo.id);
+    this._removeMarker(markerInfo.id, marker.markerObj);
+    this.addMarker(markerInfo.geolocation, markerInfo.id, this._defaultMarkerConfig);
+  }
+
+  private _flyTo(geolocation: LngLatLike, zoom: number = 5): void {
+    this.map.flyTo({ 
+      center: geolocation, 
+      essential: true,
+      zoom,
+    });
+  }
+
+  private _findMarker(id: string): Marker {
+    return this.markerList.find((marker: Marker) => marker.id === id) || {} as Marker;
+  }
+  
+  private _removeMarker(id: string, markerObj: mapboxgl.Marker): void {
+    markerObj.remove();
+    const index: number = this.markerList.findIndex((marker: Marker) => marker.id === id);
+    if (index > -1) { 
+      this.markerList.splice(index, 1); 
+    }
   }
 }

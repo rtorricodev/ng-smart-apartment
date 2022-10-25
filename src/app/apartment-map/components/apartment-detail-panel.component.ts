@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Apartment } from './../apartment.interface';
+import { Apartment } from '../apartment.interface';
 import { DocumentData } from '@angular/fire/firestore';
 
 @Component({
@@ -53,7 +53,7 @@ import { DocumentData } from '@angular/fire/firestore';
 
         </mat-tab>
         <mat-tab label="Overview">
-        <div class="my-3 ml-4 text-gray-700">HIGH-VALUE amenities</div>
+        <div class="my-3 ml-6 text-gray-700">HIGH-VALUE amenities</div>
             <div class="w-full h-[9rem] flex justify-center flex-wrap">
                 <ng-container *ngFor="let amenities of (selectedApartment? selectedApartment['highValueAmenities'] : [])">
                     <div class="w-5/12 h-12 bg-white rounded-md shadow-md mx-3 my-2 flex items-center justify-center">
@@ -61,7 +61,7 @@ import { DocumentData } from '@angular/fire/firestore';
                     </div>
                 </ng-container>
             </div> 
-            <div class="my-3 ml-4 text-gray-700">Community features</div>
+            <div class="my-3 ml-6 text-gray-700">COMMUNITY FEATURES</div>
             <div class="w-full h-[12rem] flex justify-center flex-wrap">
                 <ng-container *ngFor="let amenities of (selectedApartment? selectedApartment['propertyAmenities'] : [])">
                     <div class="w-5/12 h-12 bg-white rounded-md shadow-md mx-3 my-2 flex items-center justify-center">
@@ -69,7 +69,7 @@ import { DocumentData } from '@angular/fire/firestore';
                     </div>
                 </ng-container>
             </div> 
-            <div class="my-3 ml-4 text-gray-700">UNIT OPTIONS</div>
+            <div class="my-3 ml-6 text-gray-700">UNIT OPTIONS</div>
             <div class="w-full h-[12rem] flex justify-center flex-wrap">
                 <ng-container *ngFor="let unitAmenities of (selectedApartment? selectedApartment['unitAmenities'] : [])">
                     <div class="w-5/12 h-12 bg-white rounded-md shadow-md mx-3 my-2 flex items-center justify-center">
@@ -79,7 +79,6 @@ import { DocumentData } from '@angular/fire/firestore';
             </div> 
         </mat-tab>
     </mat-tab-group>
-
     <div class=" w-full h-screen bg-slate-100 overflow-scroll flex flex-wrap justify-center">
     </div>
   `

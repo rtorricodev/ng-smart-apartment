@@ -19,9 +19,16 @@ import { DocumentData } from '@angular/fire/firestore';
 
     <div class=" w-full h-screen bg-slate-100 overflow-scroll flex flex-wrap justify-center ">
         <div class="mt-36 w-11/12">
-            <div *ngFor="let apartment of apartments, let i = index" >
-                <app-apartment-card (clickEvent)="handleClick($event)" [apartment]="apartment"></app-apartment-card>
-            </div>
+            <ng-container *ngIf="apartments; else loading">
+                <div *ngFor="let apartment of apartments, let i = index" >
+                    <app-apartment-card (clickEvent)="handleClick($event)" [apartment]="apartment"></app-apartment-card>
+                </div>
+            </ng-container>
+            <ng-template #loading>
+                <div class=" w-full flex justify-center mt-12">
+                    <mat-spinner></mat-spinner>
+                </div>
+            </ng-template>
         </div>
     </div>
   `

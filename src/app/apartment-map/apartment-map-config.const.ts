@@ -1,4 +1,4 @@
-import { MapConfig } from '@shared/map/map-config.interface';
+import { MapConfig } from '@shared/interfaces/map-config.interface';
 
 export const APARTMENT_MAP_CONFIG: MapConfig = {
     center: [-96.790852,32.780843],

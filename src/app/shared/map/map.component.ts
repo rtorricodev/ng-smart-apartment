@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { Observable, Subject, of, takeUntil, tap } from 'rxjs';
 
-import { LngLatLike } from 'mapbox-gl';
-import { MapConfig } from './map-config.interface';
+import { MapConfig } from '../interfaces/map-config.interface';
 import { MapService } from '@core/map.service';
+import { MarkerProps } from '../interfaces/marker.interface';
 
 @Component({
   selector: 'app-map',
@@ -13,7 +13,7 @@ import { MapService } from '@core/map.service';
 export class MapComponent implements AfterViewInit, OnDestroy {
 
   @Input() mapConfig: MapConfig = {} as MapConfig;
-  @Input() markersPoitions$: Observable<LngLatLike[]> = of([]);
+  @Input() markers$: Observable<MarkerProps[]> = of([]);
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   
@@ -21,10 +21,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.mapService.buildMap(this.mapConfig);
-
-    this.markersPoitions$.pipe(
-      tap((markerPostions) => {
-        this.mapService.addMarkers(markerPostions);       
+    this.markers$.pipe(
+      tap((markers: MarkerProps[]) => {
+        this.mapService.addMarkers(markers);       
       }),
       takeUntil(this.destroy$)
     ).subscribe()
@@ -34,7 +33,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 
 }
 
