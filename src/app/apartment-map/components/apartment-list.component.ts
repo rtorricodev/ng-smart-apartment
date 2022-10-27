@@ -15,6 +15,7 @@ import { MarkerProps } from '@shared/interfaces/marker.interface';
       <div *ngIf="!isApartmentSelected" class="w-2/6">
         <app-apartment-list-panel
           (apartmentSelectedEvent)="handleSelection($event)"
+          (filterChangedEvent)="handleFilterChange($event)"
           [apartments]="apartments$ | async"
         ></app-apartment-list-panel>
       </div>
@@ -43,6 +44,25 @@ export class ApartmentListComponent implements OnInit {
     private mapService: MapService
   ) {
     this.apartments$ = this.fireStoreService.getCollectionData('apartment');
+  }
+
+  handleFilterChange(maxPrice: number): void {
+    this.apartments$.pipe(
+      map((apartments) => 
+        apartments.filter((apartment) => apartment['floorPlans'][0].price <= maxPrice)
+      ),
+      tap((filteredApartments) => {
+        const filteredMarkerProps: MarkerProps[] = filteredApartments.map((filterdApartment) => ({
+          id: filterdApartment['propertyId'],
+          geolocation: [
+            filterdApartment['geoposition'].latitude,
+            filterdApartment['geoposition'].longitude,
+          ],
+        }))
+        this.mapService.updateAllMarkers(filteredMarkerProps);
+      })
+    ).subscribe();
+
   }
 
   handleSelection(propertyId: string): void {
@@ -81,6 +101,7 @@ export class ApartmentListComponent implements OnInit {
       }),
       take(1)
     ).subscribe();
+    this.handleFilterChange(17000);
   }
 
   ngOnInit(): void {

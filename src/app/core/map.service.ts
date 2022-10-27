@@ -32,6 +32,11 @@ export class MapService {
     });
   }
 
+  updateAllMarkers(markerInfoList: MarkerProps[]): void {
+    this._removeAllMarkers();
+    this.addMarkers(markerInfoList);
+  }
+
   addMarker(geolocation: LngLatLike, id: string = "", markerConfig?: MarkerConfig): void {
     const markerConf: MarkerConfig = markerConfig || this._defaultMarkerConfig;
     const markerObj: mapboxgl.Marker = new mapboxgl.Marker(markerConf).setLngLat(geolocation).addTo(this.map);
@@ -49,18 +54,18 @@ export class MapService {
     });
   }
 
-  focusMarker(markerInfo: MarkerProps): void {
-    this._flyTo(markerInfo.geolocation, this._defaultFocusZoom);
-    const marker: Marker = this._findMarker(markerInfo.id);
-    this._removeMarker(markerInfo.id, marker.markerObj);
-    this.addMarker(markerInfo.geolocation, markerInfo.id, this._focusedMarkerConfig);
+  focusMarker(markerPorps: MarkerProps): void {
+    this._flyTo(markerPorps.geolocation, this._defaultFocusZoom);
+    const marker: Marker = this._findMarker(markerPorps.id);
+    this._removeMarker(markerPorps.id, marker.markerObj);
+    this.addMarker(markerPorps.geolocation, markerPorps.id, this._focusedMarkerConfig);
   }
 
-  unfocusMarker(markerInfo: MarkerProps): void {
+  unfocusMarker(markerPorps: MarkerProps): void {
     this._flyTo(this._mapConfig.center, this._mapConfig.zoom);
-    const marker: Marker = this._findMarker(markerInfo.id);
-    this._removeMarker(markerInfo.id, marker.markerObj);
-    this.addMarker(markerInfo.geolocation, markerInfo.id, this._defaultMarkerConfig);
+    const marker: Marker = this._findMarker(markerPorps.id);
+    this._removeMarker(markerPorps.id, marker.markerObj);
+    this.addMarker(markerPorps.geolocation, markerPorps.id, this._defaultMarkerConfig);
   }
 
   private _flyTo(geolocation: LngLatLike, zoom: number = 5): void {
@@ -73,6 +78,11 @@ export class MapService {
 
   private _findMarker(id: string): Marker {
     return this.markerList.find((marker: Marker) => marker.id === id) || {} as Marker;
+  }
+
+  private _removeAllMarkers(): void {
+    this.markerList.forEach((marker: Marker) => marker.markerObj.remove());
+    this.markerList = [];
   }
   
   private _removeMarker(id: string, markerObj: mapboxgl.Marker): void {

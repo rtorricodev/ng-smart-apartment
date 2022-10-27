@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { Observable, Subject, of, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, of, take, takeUntil, tap } from 'rxjs';
 
 import { MapConfig } from '../interfaces/map-config.interface';
 import { MapService } from '@core/map.service';
@@ -25,7 +25,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       tap((markers: MarkerProps[]) => {
         this.mapService.addMarkers(markers);       
       }),
-      takeUntil(this.destroy$)
+      take(1),
     ).subscribe()
   }
 
