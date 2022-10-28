@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 
 import { MapConfig } from '../../interfaces/map-config.interface';
-import { MapService } from '@core/map.service';
+import { MapService } from '@shared/services/map.service';
 
 @Component({
   selector: 'app-map',

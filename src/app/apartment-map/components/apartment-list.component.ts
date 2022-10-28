@@ -5,7 +5,7 @@ import { APARTMENT_MAP_CONFIG } from '../constants/apartment-map-config.const';
 import { Apartment } from '@shared/interfaces/apartment.interface';
 import { ApartmentMapStoreService } from '../store/apartment-map-store.service';
 import { MapConfig } from '@shared/interfaces/map-config.interface';
-import { MapService } from '@core/map.service';
+import { MapService } from '@shared/services/map.service';
 import { MarkerProps } from '@shared/interfaces/marker.interface';
 
 @Component({

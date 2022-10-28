@@ -8,7 +8,7 @@ import { ApartmentMapRoutingModule } from './apartment-map-routing.module';
 import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
-import { MapService } from '@core/map.service';
+import { MapService } from '@shared/services/map.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
