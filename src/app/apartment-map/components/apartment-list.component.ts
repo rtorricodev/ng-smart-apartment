@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of, take, tap } from 'rxjs';
 
 import { APARTMENT_MAP_CONFIG } from '../constants/apartment-map-config.const';
+import { Apartment } from '@shared/interfaces/apartment.interface';
 import { ApartmentMapStoreService } from '../store/apartment-map-store.service';
-import { DocumentData } from '@angular/fire/firestore';
 import { MapConfig } from '@shared/interfaces/map-config.interface';
 import { MapService } from '@core/map.service';
 import { MarkerProps } from '@shared/interfaces/marker.interface';
@@ -32,9 +32,9 @@ import { MarkerProps } from '@shared/interfaces/marker.interface';
   `,
 })
 export class ApartmentListComponent implements OnInit {
-  apartments$: Observable<DocumentData[]> = of();
+  apartments$: Observable<Apartment[]> = of();
   markers$: Observable<MarkerProps[]> = this.apartmentMapStoreService.markers$;
-  selectedApartment$: Observable<DocumentData | undefined> = of();
+  selectedApartment$: Observable<Apartment | undefined> = of();
 
   defuatFilterMaxPrice: number = 17000;
   isApartmentSelected: boolean = false;

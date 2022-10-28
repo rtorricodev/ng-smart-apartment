@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { Apartment } from '@shared/interfaces/apartment.interface';
 import { DocumentData } from '@angular/fire/firestore';
 
 @Component({
@@ -63,7 +64,7 @@ import { DocumentData } from '@angular/fire/firestore';
   `,
 })
 export class ApartmentListPanelComponent {
-  @Input() apartments: DocumentData[] | null | undefined = [];
+  @Input() apartments: Apartment[] | null | undefined = [];
   @Output() apartmentSelectedEvent: EventEmitter<string> = new EventEmitter();
   @Output() filterChangedEvent: EventEmitter<number> = new EventEmitter();
 

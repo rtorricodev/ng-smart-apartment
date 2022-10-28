@@ -1,5 +1,4 @@
 export interface Apartment {
-    [x: string]: any;
     city: string;
     favorite: boolean;
     geoposition: Geoposition,
@@ -7,8 +6,15 @@ export interface Apartment {
     photo: string;
     propertyId: string;
     state: string;
-    floorsPlan: Floor[];
+    floorPlans: Floor[];
     streetAddress: string;
+    url: string;
+    phone: string;
+    photos: string[];
+    specials: string;
+    unitAmenities: string[];
+    propertyAmenities: string[];
+    highValueAmenities: string[];
 }
 
 interface Geoposition {
@@ -17,6 +23,8 @@ interface Geoposition {
 }
 
 interface Floor {
-    bedrooms: string;
-    price: string;
+    bed: string;
+    bath: string;
+    price: number;
+    priceMax: number;
 }

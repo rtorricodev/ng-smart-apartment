@@ -5,13 +5,15 @@ export interface MarkerProps {
     geolocation: LngLatLike;
 }
 
+export interface MarkerConfig {
+    color: string;
+    draggable: boolean;
+}
+
+
 export interface Marker {
     id: string;
     markerConf: MarkerConfig;
     markerObj: mapboxgl.Marker;
 }
 
-export interface MarkerConfig {
-    color: string;
-    draggable: boolean;
-}

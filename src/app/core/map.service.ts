@@ -4,8 +4,8 @@ import { Marker, MarkerConfig } from '@shared/interfaces/marker.interface';
 
 import { Injectable } from '@angular/core';
 import { LngLatLike } from 'mapbox-gl';
-import { MapConfig } from '../shared/interfaces/map-config.interface';
-import { MarkerProps } from '../shared/interfaces/marker.interface';
+import { MapConfig } from '@shared/interfaces/map-config.interface';
+import { MarkerProps } from '@shared/interfaces/marker.interface';
 import { environment } from '@env/environment';
 
 @Injectable({

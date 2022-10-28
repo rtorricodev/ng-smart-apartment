@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Apartment } from '../interfaces/apartment.interface';
-import { DocumentData } from '@angular/fire/firestore';
+import { Apartment } from '@shared/interfaces/apartment.interface';
 
 @Component({
   selector: 'app-apartment-detail-panel',
@@ -13,16 +12,16 @@ import { DocumentData } from '@angular/fire/firestore';
         <div class=" w-full h-2/3 bg-blue-500 flex justify-between items-center px-5 top-16">
             <div>
                 <p class="text-white">
-                    {{selectedApartment? selectedApartment['name'] : ""}}
+                    {{selectedApartment? selectedApartment.name : ""}}
                     <span class="mx-2">
-                        <a [href]="selectedApartment? selectedApartment['url'] : '' " target="_blank">
+                        <a [href]="selectedApartment? selectedApartment.url : '' " target="_blank">
                             <i class="material-icons text-white">public</i>
                          </a>
                     </span>
                 </p>
                 <span class="text-white font-light">
-                    {{selectedApartment? selectedApartment['streetAddress'] : ""}} -
-                    {{selectedApartment? selectedApartment['phone'] : ""}}
+                    {{selectedApartment? selectedApartment.streetAddress : ""}} -
+                    {{selectedApartment? selectedApartment.phone : ""}}
                 </span>
             </div>
             <div class="w-10 h-10 bg-white rounded-full cursor-pointer flex justify-center items-center">
@@ -31,7 +30,7 @@ import { DocumentData } from '@angular/fire/firestore';
         </div>
     </div>
     <div class="fixed w-2/6 h-28 mt-36 flex overflow-scroll justify-center">
-        <ng-container *ngFor="let photo of (selectedApartment? selectedApartment['photos'] : [])">
+        <ng-container *ngFor="let photo of (selectedApartment? selectedApartment.photos : [])">
             <img [src]="photo" alt="image of apartment" class="rounded-sm w-auto mx-1 my-2"/>
         </ng-container>
     </div>
@@ -40,13 +39,13 @@ import { DocumentData } from '@angular/fire/firestore';
         <mat-tab label="Plans" class=" overflow-scroll">
             <div class="w-full flex justify-center flex-wrap ">
                 <div class=" text-sm mx-5 my-3 text-gray-700">
-                    {{selectedApartment? selectedApartment['specials']  : "" }}
+                    {{selectedApartment? selectedApartment.specials : "" }}
                 </div>
-                <ng-container *ngFor="let floor of (selectedApartment? selectedApartment['floorPlans'] : [])">
+                <ng-container *ngFor="let floor of (selectedApartment? selectedApartment.floorPlans : [])">
                     <div class="w-11/12 h-16 bg-white rounded-md shadow-md m-3 flex justify-between items-center">
-                        <p class="mx-3">{{floor['bed']}} bed, {{floor['bath']}} bath</p>
+                        <p class="mx-3">{{floor.bed}} bed, {{floor.bath}} bath</p>
                         <p class="mx-3">No connections</p>
-                        <p class="mx-3 text-blue-800 font-light text-lg">$ {{floor['price']}} - $ {{floor['priceMax']}}</p>
+                        <p class="mx-3 text-blue-800 font-light text-lg">$ {{floor.price}} - $ {{floor.priceMax}}</p>
                     </div>
                 </ng-container>
             </div>
@@ -55,7 +54,7 @@ import { DocumentData } from '@angular/fire/firestore';
         <mat-tab label="Overview">
         <div class="my-3 ml-6 text-gray-700">HIGH-VALUE amenities</div>
             <div class="w-full h-[9rem] flex justify-center flex-wrap">
-                <ng-container *ngFor="let amenities of (selectedApartment? selectedApartment['highValueAmenities'] : [])">
+                <ng-container *ngFor="let amenities of (selectedApartment? selectedApartment.highValueAmenities : [])">
                     <div class="w-5/12 h-12 bg-white rounded-md shadow-md mx-3 my-2 flex items-center justify-center">
                         <p>{{amenities}}</p>
                     </div>
@@ -63,7 +62,7 @@ import { DocumentData } from '@angular/fire/firestore';
             </div> 
             <div class="my-3 ml-6 text-gray-700">COMMUNITY FEATURES</div>
             <div class="w-full h-[12rem] flex justify-center flex-wrap">
-                <ng-container *ngFor="let amenities of (selectedApartment? selectedApartment['propertyAmenities'] : [])">
+                <ng-container *ngFor="let amenities of (selectedApartment? selectedApartment.propertyAmenities : [])">
                     <div class="w-5/12 h-12 bg-white rounded-md shadow-md mx-3 my-2 flex items-center justify-center">
                         <p>{{amenities}}</p>
                     </div>
@@ -71,7 +70,7 @@ import { DocumentData } from '@angular/fire/firestore';
             </div> 
             <div class="my-3 ml-6 text-gray-700">UNIT OPTIONS</div>
             <div class="w-full h-[12rem] flex justify-center flex-wrap">
-                <ng-container *ngFor="let unitAmenities of (selectedApartment? selectedApartment['unitAmenities'] : [])">
+                <ng-container *ngFor="let unitAmenities of (selectedApartment? selectedApartment.unitAmenities : [])">
                     <div class="w-5/12 h-12 bg-white rounded-md shadow-md mx-3 my-2 flex items-center justify-center">
                         <p>{{unitAmenities}}</p>
                     </div>
@@ -87,7 +86,7 @@ import { DocumentData } from '@angular/fire/firestore';
 export class ApartmentDetailPanelComponent {
 
     @Output() backEvent: EventEmitter<void> = new EventEmitter();  
-    @Input() selectedApartment:  DocumentData | undefined | null = {} as Apartment;
+    @Input() selectedApartment:  Apartment | undefined | null = {} as Apartment;
 
     constructor() { }
 

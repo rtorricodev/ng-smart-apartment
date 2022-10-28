@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { loadApartmentsFailed, loadApartmentsSucess } from './apartment-map.actions';
 
-import { DocumentData } from '@angular/fire/firestore';
+import { Apartment } from '@shared/interfaces/apartment.interface';
 
 export interface FeatureState {
-    apartments: DocumentData[];
+    apartments: Apartment[];
     errorLoading: boolean;
 }
   

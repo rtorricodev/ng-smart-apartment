@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Apartment } from '../interfaces/apartment.interface';
-import { DocumentData } from '@angular/fire/firestore';
+import { Apartment } from '@shared/interfaces/apartment.interface';
 
 @Component({
   selector: 'app-apartment-card',
@@ -23,7 +22,7 @@ import { DocumentData } from '@angular/fire/firestore';
   </div>`,
 })
 export class ApartmentCardComponent {
-  @Input() apartment: Apartment | DocumentData = {} as Apartment;
+  @Input() apartment: Apartment = {} as Apartment;
   @Output() clickEvent: EventEmitter<string> = new EventEmitter();
 
   constructor() {}
