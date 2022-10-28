@@ -12,6 +12,7 @@ import { Apartment } from '@shared/interfaces/apartment.interface';
       <div class="w-10/12 mt-4">
         <p class="font-bold text-gray-700">{{ apartment.name }}</p>
         <p class="text-sm text-gray-700">{{ apartment.streetAddress }}</p>
+        <p class="text-sm text-gray-700 mt-3 font-light"> - {{ apartment.floorPlans[0].price }} $</p>
       </div>
     </div>
     <div class=" w-2/6 h-full flex items-center justify-center ">

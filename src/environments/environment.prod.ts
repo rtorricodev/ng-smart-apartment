@@ -8,5 +8,6 @@ export const environment = {
     authDomain: 'ng-smart-apartment.firebaseapp.com',
     messagingSenderId: '937246113743',
   },
-  production: true
+  production: false,
+  mapBoxToken: "pk.eyJ1IjoicnRvcnJpY28iLCJhIjoiY2w5bGl6a2tiMDlsNTQwcnljejlzc3d0YyJ9.2_KDeAy1J-SSIPYzLFPPMw",
 };
