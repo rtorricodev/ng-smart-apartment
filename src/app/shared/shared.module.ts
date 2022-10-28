@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { MapComponent } from './map/map.component';
+import { MapComponent } from './components/map/map.component';
 import { NgModule } from '@angular/core';
 
 @NgModule({

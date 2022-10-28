@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, map, of, take, tap } from 'rxjs';
+import { Observable, of, take, tap } from 'rxjs';
 
-import { APARTMENT_MAP_CONFIG } from '../apartment-map-config.const';
+import { APARTMENT_MAP_CONFIG } from '../constants/apartment-map-config.const';
+import { ApartmentMapStoreService } from '../store/apartment-map-store.service';
 import { DocumentData } from '@angular/fire/firestore';
-import { FirestoreService } from '@core/firestore.service';
 import { MapConfig } from '@shared/interfaces/map-config.interface';
 import { MapService } from '@core/map.service';
 import { MarkerProps } from '@shared/interfaces/marker.interface';
@@ -32,89 +32,49 @@ import { MarkerProps } from '@shared/interfaces/marker.interface';
   `,
 })
 export class ApartmentListComponent implements OnInit {
-  apartments$: Observable<DocumentData[]>;
-  markers$: Observable<MarkerProps[]> = of([]);
+  apartments$: Observable<DocumentData[]> = of();
+  markers$: Observable<MarkerProps[]> = this.apartmentMapStoreService.markers$;
   selectedApartment$: Observable<DocumentData | undefined> = of();
 
+  defuatFilterMaxPrice: number = 17000;
   isApartmentSelected: boolean = false;
+  selectedId: string = '';
   mapConfig: MapConfig = APARTMENT_MAP_CONFIG;
 
   constructor(
-    private fireStoreService: FirestoreService,
-    private mapService: MapService
-  ) {
-    this.apartments$ = this.fireStoreService.getCollectionData('apartment');
-  }
+    private mapService: MapService,
+    private apartmentMapStoreService: ApartmentMapStoreService
+  ) {}
 
   handleFilterChange(maxPrice: number): void {
-    this.apartments$.pipe(
-      map((apartments) => 
-        apartments.filter((apartment) => apartment['floorPlans'][0].price <= maxPrice)
-      ),
-      tap((filteredApartments) => {
-        const filteredMarkerProps: MarkerProps[] = filteredApartments.map((filterdApartment) => ({
-          id: filterdApartment['propertyId'],
-          geolocation: [
-            filterdApartment['geoposition'].latitude,
-            filterdApartment['geoposition'].longitude,
-          ],
-        }))
-        this.mapService.updateAllMarkers(filteredMarkerProps);
-      })
-    ).subscribe();
-
+    this.apartmentMapStoreService.getApartmentMarkerPropsFiteredByPrice(maxPrice).pipe(
+      tap((filteredMarkerProps: MarkerProps[]) =>  this.mapService.updateAllMarkers(filteredMarkerProps)),
+      take(1),
+    ).subscribe()
   }
 
   handleSelection(propertyId: string): void {
     this.isApartmentSelected = true;
-    this.selectedApartment$ = this.apartments$.pipe(
-      map((apartments: DocumentData[]) =>
-        apartments.find((apartment) => apartment['propertyId'] === propertyId)
-      ),
-      tap((selectedApartment) => {
-        if (selectedApartment) {
-          this.mapService.focusMarker({ 
-            id: selectedApartment['propertyId'],
-            geolocation: [
-              selectedApartment['geoposition'].latitude,
-              selectedApartment['geoposition'].longitude,
-            ]
-          });
-        }
-      })
-    );
+    this.selectedId = propertyId;
+    this.selectedApartment$ = this.apartmentMapStoreService.getApartment(propertyId);
+    this.apartmentMapStoreService.getApartmentMarkeProps(propertyId).pipe(
+      tap((markerProps: MarkerProps) => this.mapService.focusMarker(markerProps)),
+      take(1),
+    ).subscribe();
   }
 
   handleBack(): void {
     this.isApartmentSelected = false;
-    this.selectedApartment$.pipe(
-      tap((selectedApartment) => {
-        if (selectedApartment) {
-          this.mapService.unfocusMarker({ 
-            id: selectedApartment['propertyId'],
-            geolocation: [
-              selectedApartment['geoposition'].latitude,
-              selectedApartment['geoposition'].longitude,
-            ]
-          });
-        }
-      }),
-      take(1)
+    this.apartmentMapStoreService.getApartmentMarkeProps(this.selectedId).pipe(
+      tap((markerProps: MarkerProps) => this.mapService.unfocusMarker(markerProps)),
+      take(1),
     ).subscribe();
-    this.handleFilterChange(17000);
+    this.selectedId = '';
+    this.handleFilterChange(this.defuatFilterMaxPrice);
   }
 
   ngOnInit(): void {
-    this.markers$ = this.apartments$.pipe(
-      map((apartments) =>
-        apartments.map((apartment) => ({
-          id: apartment['propertyId'],
-          geolocation: [
-            apartment['geoposition'].latitude,
-            apartment['geoposition'].longitude,
-          ],
-        }))
-      )
-    );
+    this.apartmentMapStoreService.doLoadAppartments();
+    this.apartments$ = this.apartmentMapStoreService.apartments$;
   }
 }

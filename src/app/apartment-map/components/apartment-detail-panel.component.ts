@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Apartment } from '../apartment.interface';
+import { Apartment } from '../interfaces/apartment.interface';
 import { DocumentData } from '@angular/fire/firestore';
 
 @Component({
