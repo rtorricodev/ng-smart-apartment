@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of, take, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject, of, take, takeUntil, tap } from 'rxjs';
 
 import { APARTMENT_MAP_CONFIG } from '../constants/apartment-map-config.const';
 import { Apartment } from '@shared/interfaces/apartment.interface';
@@ -26,13 +26,14 @@ import { MarkerProps } from '@shared/interfaces/marker.interface';
         ></app-apartment-detail-panel>
       </div>
       <div class="w-4/6 h-screen">
-        <app-map [mapConfig]="mapConfig" [markers$]="this.markers$"></app-map>
+        <app-map [mapConfig]="mapConfig"></app-map>
       </div>
     </div>
   `,
 })
-export class ApartmentListComponent implements OnInit {
+export class ApartmentListComponent implements OnInit, OnDestroy {
   apartments$: Observable<Apartment[]> = of();
+  destroy$: Subject<boolean> = new Subject<boolean>();
   markers$: Observable<MarkerProps[]> = this.apartmentMapStoreService.markers$;
   selectedApartment$: Observable<Apartment | undefined> = of();
 
@@ -76,5 +77,16 @@ export class ApartmentListComponent implements OnInit {
   ngOnInit(): void {
     this.apartmentMapStoreService.doLoadAppartments();
     this.apartments$ = this.apartmentMapStoreService.apartments$;
+    this.markers$.pipe(
+      tap(
+        (markers: MarkerProps[]) => this.mapService.addMarkers(markers)),
+      takeUntil(this.destroy$),
+    ).subscribe()
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
 }
